@@ -43,9 +43,9 @@ preload(
     "textures/textureCube/10.jpg",
     "textures/textureCube/11.jpg",
     "textures/textureCube/12.jpg",
-    "textures/textureCube/13.jpg",
-    "textures/textureCube/14.jpg",
-    "textures/textureCube/15.jpg"
+    "textures/textureCube/13.jpg"
+    // "textures/textureCube/14.jpg",
+    // "textures/textureCube/15.jpg"
 )
 initScene();
 
@@ -80,7 +80,7 @@ function initScene() {
 }
 
 function shardTexs() {
-    for (var j = 0; j < 15; j++) {
+    for (var j = 0; j < 13; j++) {
         var urls = [];
         for (var i = 0; i < 6; i++) {
             var url = "textures/textureCube/" + (j + 1) + ".jpg";
@@ -215,9 +215,9 @@ function onDocumentMouseMove(event) {
     event.preventDefault();
     var delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
     // targetRotationY = targetRotationOnMouseDownY + (mouseY - mouseYOnMouseDown) * 0.001;
-    targetRotationY = event.wheelDeltaX*0.001;
+    targetRotationY = event.wheelDeltaY*0.001;
     // targetRotationX = targetRotationOnMouseDownX + (mouseX - mouseXOnMouseDown) * 0.001;
-    targetRotationX = event.wheelDeltaY*0.001;
+    targetRotationX = event.wheelDeltaX*0.001;
     console.log(event);
 }
 
