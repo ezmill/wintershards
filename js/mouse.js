@@ -212,11 +212,12 @@ function onDocumentMouseMove(event) {
     // console.log(event);
     mouseX = event.clientX - windowHalfX;
     mouseY = event.clientY + windowHalfY;
-event.preventDefault();
+    event.preventDefault();
+    var delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
     // targetRotationY = targetRotationOnMouseDownY + (mouseY - mouseYOnMouseDown) * 0.001;
-    targetRotationY = event.x * 0.01;
+    targetRotationY = event.wheelDeltaX*0.001;
     // targetRotationX = targetRotationOnMouseDownX + (mouseX - mouseXOnMouseDown) * 0.001;
-    targetRotationX = event.y * 0.01;
+    targetRotationX = event.wheelDeltaY*0.001;
     console.log(event);
 }
 
@@ -281,9 +282,10 @@ function render() {
     cameraCube.rotation.copy(camera.rotation);
     for (var i = 0; i < shards.length; i++) {
         shards[i].rotation.x = Date.now() * 0.00008; //+(mouseX/(mouseY*10.0));
-        shards[i].rotation.y += (targetRotationX - shards[i].rotation.y) * 0.1;
+        // shards[i].rotation.y += (targetRotationX - shards[i].rotation.y) * 0.1;
+        shards[i].rotation.y += targetRotationX;
         // shards[i].rotation.z = Date.now()*0.00003;
-        shards[i].rotation.z += (targetRotationY - shards[i].rotation.z) * 0.1;
+        shards[i].rotation.z += targetRotationY;
     }
 
 
