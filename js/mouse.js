@@ -69,10 +69,11 @@ function initScene() {
     // renderer.domElement.style.height = "100%";
     container.appendChild(renderer.domElement);
     //event listeners
-    document.addEventListener('mousemove', onDocumentMouseMove, false);
+    window.addEventListener('mousewheel', onDocumentMouseMove, false);
     // document.addEventListener( 'touchstart', onDocumentTouchStart, false );
-    document.addEventListener('touchmove', onDocumentTouchMove, false);
-    renderer.domElement.addEventListener('mousedown', onDocumentMouseDown, false);
+    // document.addEventListener('touchmove', onDocumentTouchMove, false);
+    // renderer.domElement.addEventListener('mousedown', onDocumentMouseDown, false);
+    window.addEventListener('keydown', onDocumentMouseDown, false);
     window.addEventListener('resize', onWindowResize, false);
     texture = initTexture(index);
     // animate();
@@ -189,17 +190,18 @@ function map(value, max, minrange, maxrange) {
     return ((max - value) / (max)) * (maxrange - minrange) + minrange;
 }
 
-function onDocumentMouseDown() {
+function onDocumentMouseDown(e) {
+    if(e.keyCode == '32'){
+        if (index == shardTextures.length - 1) {
+            index = 0;
+        } else {
+            index++;
+        }
 
-    if (index == shardTextures.length - 1) {
-        index = 0;
-    } else {
-        index++;
-    }
-
-    var newTex = shardTextures[index];
-    for (var i = 0; i < shards.length; i++) {
-        shards[i].material.envMap = newTex;
+        var newTex = shardTextures[index];
+        for (var i = 0; i < shards.length; i++) {
+            shards[i].material.envMap = newTex;
+        }
     }
     // shader.uniforms[ "tCube" ].value = newTex;
 
@@ -207,11 +209,15 @@ function onDocumentMouseDown() {
 }
 
 function onDocumentMouseMove(event) {
+    // console.log(event);
     mouseX = event.clientX - windowHalfX;
     mouseY = event.clientY + windowHalfY;
-
-    targetRotationY = targetRotationOnMouseDownY + (mouseY - mouseYOnMouseDown) * 0.001;
-    targetRotationX = targetRotationOnMouseDownX + (mouseX - mouseXOnMouseDown) * 0.001;
+event.preventDefault();
+    // targetRotationY = targetRotationOnMouseDownY + (mouseY - mouseYOnMouseDown) * 0.001;
+    targetRotationY = event.x * 0.01;
+    // targetRotationX = targetRotationOnMouseDownX + (mouseX - mouseXOnMouseDown) * 0.001;
+    targetRotationX = event.y * 0.01;
+    console.log(event);
 }
 
 function onDocumentTouchStart(event) {
